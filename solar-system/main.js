@@ -3,6 +3,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 // Importações dos objetos (Planetas)
 import { Sun } from './src/sun.js';
+import { Earth } from './src/planets/earth.js';
+import {orbitObjectAround} from './src/assistant.js'
 
 // Inicialização da Cena
 const scene = new THREE.Scene();
@@ -14,13 +16,12 @@ camera.position.z = 8
 new OrbitControls(camera, renderer.domElement);
 
 // Instâncias dos objetos
-const sun1 = new Sun();
-scene.add(sun1.getMesh)
+const sun = new Sun();
+scene.add(sun.getMesh)
 
-const sun2 = new Sun();
-scene.add(sun2.getMesh)
+const earth = new Earth();
+scene.add(earth.getMesh)
 
-sun2.getMesh.position.x = 5
 
 const orbitRadius = 3; // Raio da órbita
 const orbitSpeed = 0.005; // Velocidade da órbita (em radianos por quadro)
@@ -28,10 +29,8 @@ const orbitSpeed = 0.005; // Velocidade da órbita (em radianos por quadro)
 function animate() {
 	requestAnimationFrame( animate );
 
-	sun1.animate()
 
-	sun2.getMesh.position.x = sun1.getMesh.position.x + orbitRadius * Math.cos(orbitSpeed * performance.now());
-    sun2.getMesh.position.z = sun1.getMesh.position.z + orbitRadius * Math.sin(orbitSpeed * performance.now());
+	orbitObjectAround(sun.getMesh, earth.getMesh, 3, 0.001)
 
 
 	renderer.render(scene, camera );
