@@ -11,14 +11,17 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { FilmPass } from 'three/addons/postprocessing/FilmPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { Sun } from './factories/Sun.mjs';
+
+// Planets imports 
 import { Mercury } from './factories/Mercury.mjs';
 import { Venus } from './factories/Venus.mjs';
+import { Mars } from './factories/Mars.mjs';
 
 const radius = 6371;
 const moonScale = 0.23;
 const sunRadius = 150000;
 
-let EarthOrbitSpeed, MercuryOrbitSpeed, VenusOrbitSpeed;
+let EarthOrbitSpeed, MercuryOrbitSpeed, VenusOrbitSpeed, MarsOrbitSpeed;
 
 const MARGIN = 0;
 let SCREEN_HEIGHT = window.innerHeight - MARGIN * 2 - 80;
@@ -29,7 +32,7 @@ let dirLight, bulbLight, bulbMat;
 
 let composer;
 
-let earth, sun, mercury, venus, asteroidBelt;
+let earth, sun, mercury, venus, asteroidBelt, mars;
 
 let d, dPlanet, dMoon;
 const dMoonVec = new THREE.Vector3();
@@ -55,33 +58,37 @@ function init() {
 	scene = new THREE.Scene();
 	scene.fog = new THREE.FogExp2(0x000000, 0.00000025);
 
-
+	
 	// earth and his moon
-
 	earth = new Earth(scene, sunRadius);
 	EarthOrbitSpeed = earth.orbitSpeed;
-
+	
 	// stars
-
+	
 	const stars = new Stars(scene, radius * 3);
-
+	
 	//sun
-
+	
 	sun = new Sun(scene, sunRadius);
 	const light = new THREE.AmbientLight(0xFFFFFF, 0.1); // soft white light
 	scene.add(light);
-
+	
+	
 	//mercury
-
 	mercury = new Mercury(scene, earth.radius, sunRadius);
 	MercuryOrbitSpeed = mercury.OrbitSpeed;
-
+	
 	//venus
-
 	venus = new Venus(scene, earth.radius, sunRadius);
 	VenusOrbitSpeed = venus.OrbitSpeed;
+	
+
+	//mars
+	mars = new Mars(scene, earth.radius, sunRadius);
+	MarsOrbitSpeed = mars.OrbitSpeed;
 
 
+	
 	//asteroid belts
 
 
@@ -159,9 +166,10 @@ function onWindowResize() {
 function animate() {
 
 	requestAnimationFrame(animate);
-	earth.animate();
-	mercury.animate();
 	venus.animate();
+	mercury.animate();
+	earth.animate();
+	mars.animate();
 	render();
 	stats.update();
 
@@ -173,6 +181,7 @@ function render() {
 	orbitObjectAroundSun(earth.meshPlanet, sun.radius + earth.orbitRadius, earth.orbitSpeed);
 	orbitObjectAroundSun(mercury.mesh, sun.radius + mercury.orbitRadius, mercury.OrbitSpeed);
 	orbitObjectAroundSun(venus.mesh, sun.radius + venus.orbitRadius, venus.OrbitSpeed);
+	orbitObjectAroundSun(mars.mesh, sun.radius + mars.orbitRadius, mars.OrbitSpeed);
 
 	// slow down as we approach the surface
 	dPlanet = camera.position.length();
