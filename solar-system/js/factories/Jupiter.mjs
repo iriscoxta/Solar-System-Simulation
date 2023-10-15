@@ -2,12 +2,12 @@ import * as THREE from 'three';
 import { CelestialBodyFactory } from './CelestialBodyFactory.mjs';
 import { createOrbitLine, orbitObjectAround, orbitObjectAroundSun} from '../utils/utils.js';
 
-class Mars {
+class Jupiter {
     constructor(scene, radiusEarth, sunRadius) {
-        this.radius = 0.532 * radiusEarth;
-        this.orbitRadius =  227900;
-        this.textureMap = '../assets/textures/planetsAndMoons/mars/Mars_Texture.jpg';
-        this.textureNormalMap = '../assets/textures/planetsAndMoons/mars/Mars_Normal.png';
+        this.radius = 11.2 * radiusEarth;
+        this.orbitRadius =  778300;
+        this.textureMap = '../assets/textures/planetsAndMoons/jupiter/Jupiter_Texture.jpg';
+        this.textureNormalMap = '../assets/textures/planetsAndMoons/jupiter/Jupiter_Normal.png';
         this.rotationSpeed = 0.01;
         this.OrbitSpeed = 0.00001;
 
@@ -51,4 +51,4 @@ class Mars {
     }
 }
 
-export { Mars };
+export { Jupiter };

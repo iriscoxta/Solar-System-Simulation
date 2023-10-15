@@ -16,12 +16,14 @@ import { Sun } from './factories/Sun.mjs';
 import { Mercury } from './factories/Mercury.mjs';
 import { Venus } from './factories/Venus.mjs';
 import { Mars } from './factories/Mars.mjs';
+import { Jupiter } from './factories/Jupiter.mjs';
+import { AsteroidBelt } from './factories/AsteroidBelt.mjs';
 
 const radius = 6371;
 const moonScale = 0.23;
 const sunRadius = 150000;
 
-let EarthOrbitSpeed, MercuryOrbitSpeed, VenusOrbitSpeed, MarsOrbitSpeed;
+let EarthOrbitSpeed, MercuryOrbitSpeed, VenusOrbitSpeed, MarsOrbitSpeed, JupiterOrbitSpeed;
 
 const MARGIN = 0;
 let SCREEN_HEIGHT = window.innerHeight - MARGIN * 2 - 80;
@@ -32,7 +34,7 @@ let dirLight, bulbLight, bulbMat;
 
 let composer;
 
-let earth, sun, mercury, venus, asteroidBelt, mars;
+let earth, sun, mercury, venus, asteroidBelt, mars, jupiter;
 
 let d, dPlanet, dMoon;
 const dMoonVec = new THREE.Vector3();
@@ -87,10 +89,13 @@ function init() {
 	mars = new Mars(scene, earth.radius, sunRadius);
 	MarsOrbitSpeed = mars.OrbitSpeed;
 
+	//jupiter
+	jupiter = new Jupiter(scene, earth.radius, sunRadius);
+	JupiterOrbitSpeed = jupiter.OrbitSpeed;
 
 	
 	//asteroid belts
-
+	asteroidBelt = new AsteroidBelt(scene);	
 
 	//renderer
 
@@ -170,6 +175,8 @@ function animate() {
 	mercury.animate();
 	earth.animate();
 	mars.animate();
+	jupiter.animate();
+	// asteroidBelt.animate();
 	render();
 	stats.update();
 
@@ -182,6 +189,7 @@ function render() {
 	orbitObjectAroundSun(mercury.mesh, sun.radius + mercury.orbitRadius, mercury.OrbitSpeed);
 	orbitObjectAroundSun(venus.mesh, sun.radius + venus.orbitRadius, venus.OrbitSpeed);
 	orbitObjectAroundSun(mars.mesh, sun.radius + mars.orbitRadius, mars.OrbitSpeed);
+	orbitObjectAroundSun(jupiter.mesh, sun.radius + jupiter.orbitRadius, jupiter.OrbitSpeed);
 
 	// slow down as we approach the surface
 	dPlanet = camera.position.length();
