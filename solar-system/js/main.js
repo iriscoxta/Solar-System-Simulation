@@ -48,9 +48,13 @@ init();
 animate();
 
 function setSystemVelocity(aumento){
-	earth.orbitSpeed = aumento*EarthOrbitSpeed;
 	mercury.OrbitSpeed = aumento*MercuryOrbitSpeed;
 	venus.OrbitSpeed = aumento*VenusOrbitSpeed;
+	earth.orbitSpeed = aumento*EarthOrbitSpeed;
+	mars.OrbitSpeed = aumento*MarsOrbitSpeed;
+	jupiter.OrbitSpeed = aumento*JupiterOrbitSpeed;
+	neptune.OrbitSpeed = aumento*NeptuneOrbitSpeed;
+
 }
 
 function init() {
