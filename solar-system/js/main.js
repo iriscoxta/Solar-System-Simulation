@@ -18,12 +18,13 @@ import { Venus } from './factories/Venus.mjs';
 import { Mars } from './factories/Mars.mjs';
 import { Jupiter } from './factories/Jupiter.mjs';
 import { AsteroidBelt } from './factories/AsteroidBelt.mjs';
+import { Uranus } from './factories/Uranus.mjs';
 
 const radius = 6371;
 const moonScale = 0.23;
 const sunRadius = 150000;
 
-let EarthOrbitSpeed, MercuryOrbitSpeed, VenusOrbitSpeed, MarsOrbitSpeed, JupiterOrbitSpeed;
+let EarthOrbitSpeed, MercuryOrbitSpeed, VenusOrbitSpeed, MarsOrbitSpeed, JupiterOrbitSpeed, UranusOrbitSpeed;
 
 const MARGIN = 0;
 let SCREEN_HEIGHT = window.innerHeight - MARGIN * 2 - 80;
@@ -34,7 +35,7 @@ let dirLight, bulbLight, bulbMat;
 
 let composer;
 
-let earth, sun, mercury, venus, asteroidBelt, mars, jupiter;
+let earth, sun, mercury, venus, asteroidBelt, mars, jupiter, uranus;
 
 let d, dPlanet, dMoon;
 const dMoonVec = new THREE.Vector3();
@@ -50,6 +51,7 @@ function setSystemVelocity(aumento){
 	earth.orbitSpeed = aumento*EarthOrbitSpeed;
 	mercury.OrbitSpeed = aumento*MercuryOrbitSpeed;
 	venus.OrbitSpeed = aumento*VenusOrbitSpeed;
+	uranus.OrbitSpeed = aumento*UranusOrbitSpeed;	
 }
 
 function init() {
@@ -92,6 +94,10 @@ function init() {
 	//jupiter
 	jupiter = new Jupiter(scene, earth.radius, sunRadius);
 	JupiterOrbitSpeed = jupiter.OrbitSpeed;
+
+	//uranus
+	uranus = new Uranus(scene, earth.radius, sunRadius);
+	UranusOrbitSpeed = uranus.OrbitSpeed;
 
 	
 	//asteroid belts
@@ -173,6 +179,7 @@ function animate() {
 	requestAnimationFrame(animate);
 	venus.animate();
 	mercury.animate();
+	uranus.animate();
 	earth.animate();
 	mars.animate();
 	jupiter.animate();
@@ -190,6 +197,7 @@ function render() {
 	orbitObjectAroundSun(venus.mesh, sun.radius + venus.orbitRadius, venus.OrbitSpeed);
 	orbitObjectAroundSun(mars.mesh, sun.radius + mars.orbitRadius, mars.OrbitSpeed);
 	orbitObjectAroundSun(jupiter.mesh, sun.radius + jupiter.orbitRadius, jupiter.OrbitSpeed);
+	orbitObjectAroundSun(uranus.mesh, sun.radius + uranus.orbitRadius, uranus.OrbitSpeed);
 
 	// slow down as we approach the surface
 	dPlanet = camera.position.length();
